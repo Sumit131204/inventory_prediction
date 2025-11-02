@@ -27,14 +27,13 @@ app = FastAPI(
 )
 
 # Configure CORS
+# CORS configuration - allow all origins in production for flexibility
+# In production, you can restrict to specific domains
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",  # Local development
-        "https://*.vercel.app",    # All Vercel deployments
-        # Add your custom domain here when you have one:
-        # "https://yourdomain.com",
-    ],
+    allow_origins=["*"] if os.getenv("ENVIRONMENT") == "production" else ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -135,16 +134,24 @@ async def startup_event():
     
     # Load processed data
     print("Loading processed data...")
-    data_path = os.path.join(DATA_DIR, 'processed_kaggle_sales_data.csv')
-    if os.path.exists(data_path):
+    # Try multiple possible file names
+    possible_files = ['processed_kaggle_sales_data.csv', 'processed_data.csv']
+    data_path = None
+    for filename in possible_files:
+        path = os.path.join(DATA_DIR, filename)
+        if os.path.exists(path):
+            data_path = path
+            break
+    
+    if data_path and os.path.exists(data_path):
         try:
             PROCESSED_DATA = pd.read_csv(data_path)
             PROCESSED_DATA['date'] = pd.to_datetime(PROCESSED_DATA['date'])
-            print(f"✓ Loaded data with {len(PROCESSED_DATA)} records")
+            print(f"✓ Loaded data with {len(PROCESSED_DATA)} records from {os.path.basename(data_path)}")
         except Exception as e:
             print(f"✗ Failed to load data: {e}")
     else:
-        print(f"✗ Data file not found: {data_path}")
+        print(f"✗ Data file not found. Tried: {possible_files}")
 
 @app.on_event("shutdown")
 async def shutdown_event():
