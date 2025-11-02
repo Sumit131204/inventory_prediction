@@ -1,0 +1,102 @@
+# Inventory Prediction Project - .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+*.tsbuildinfo
+.next/
+out/
+dist/
+build/
+.npm/
+.eslintcache
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data files - exclude entire data folder
+data/
+
+# Model files (large files - exclude all model files)
+models/*.pkl
+models/*.h5
+models/*.joblib
+models/*.sav
+models/*.model
+
+# Reports and outputs
+# reports/*.csv
+# reports/*.html
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# Pytest
+.pytest_cache/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Anaconda/conda
+anaconda_projects/
+.conda/
+
+# Large files and temporary files
+*.tmp
+*.temp
+*.bak
+*.cache
